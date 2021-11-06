@@ -1,5 +1,6 @@
 """Module with model for finding similar papers"""
 
+import pickle
 from pathlib import Path
 from typing import List, Tuple, Union
 
@@ -98,3 +99,17 @@ class SimilarPapersFinder:
         abs_vectors = self._pca.fit_transform(X=abs_vectors)
 
         return abs_vectors
+
+    @staticmethod
+    def load(path: Union[str, Path]) -> 'SimilarPapersFinder':
+        path = Path(path)
+        with path.open(mode='rb') as file:
+            logic = pickle.load(file=file)
+
+        return logic
+
+    @staticmethod
+    def save(logic: 'SimilarPapersFinder', path: Union[str, Path]) -> None:
+        path = Path(path)
+        with path.open(mode='wb') as file:
+            pickle.dump(obj=logic, file=file)
