@@ -28,7 +28,7 @@ class AbstractVectorizationModel:
     def get_vector(self, query: str) -> scipy.sparse.csr_matrix:
         if self._corpus_sparse_vectors is None:
             raise ValueError('Model is not trained yet')
-        
+
         query_sparse_vector = self.tfidf_vectorizer.transform(raw_documents=[query])
 
         return query_sparse_vector
