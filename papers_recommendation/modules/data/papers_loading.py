@@ -40,10 +40,15 @@ class PapersLoader:
     def _get_papers_by_query_from_page(
         self, query: str, page: int, items_per_page: int = 100
     ) -> List[CodePaper]:
-        papers = self._papers_client.paper_list(
-            q=query, page=page, items_per_page=items_per_page
-        ).results
+        code_papers = []
 
-        code_papers = [CodePaper(paper=curr_paper) for curr_paper in papers]
+        try:
+            papers = self._papers_client.paper_list(
+                q=query, page=page, items_per_page=items_per_page
+            ).results
+
+            code_papers = [CodePaper(paper=curr_paper) for curr_paper in papers]
+        except Exception as exc:
+            print(exc)
 
         return code_papers
