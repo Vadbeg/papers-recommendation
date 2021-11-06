@@ -21,10 +21,10 @@ class PapersLoader:
         self.verbose = verbose
 
     def get_papers_by_query(
-        self, query: str, max_number_of_articles: int = 500
+        self, query: str, max_number_of_papers: int = 500
     ) -> List[CodePaper]:
         items_per_page = 100
-        num_of_pages = math.ceil(max_number_of_articles / items_per_page)
+        num_of_pages = math.ceil(max_number_of_papers / items_per_page)
 
         all_papers: List[CodePaper] = []
 
@@ -35,7 +35,7 @@ class PapersLoader:
 
             all_papers.extend(papers)
 
-        return all_papers[:max_number_of_articles]
+        return all_papers[:max_number_of_papers]
 
     def _get_papers_by_query_from_page(
         self, query: str, page: int, items_per_page: int = 100

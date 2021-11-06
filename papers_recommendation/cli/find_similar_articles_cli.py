@@ -10,6 +10,7 @@ from papers_recommendation.modules.data.code_paper import CodePaper
 from papers_recommendation.modules.models.similar_papers_finder import (
     SimilarPapersFinder,
 )
+from papers_recommendation.utils import find_paper_by_id
 
 
 def find_similar_articles_cli(
@@ -26,13 +27,13 @@ def find_similar_articles_cli(
     papers: List[CodePaper] = pickle_load(path=papers_path)
 
     query_paper = find_paper_by_id(paper_id=paper_id, papers=papers)
+    if query_paper is None:
+        raise ValueError(f'No paper with such id: {paper_id}!')
 
-    similar_papers_finder = SimilarPapersFinder(
-        papers=papers, titles_model_path=fasttext_model_path
-    )
+    similar_papers_finder = SimilarPapersFinder(titles_model_path=fasttext_model_path)
 
-    similar_papers_finder.train_abstract_model()
-    similar_papers_finder.train_nearest_neighbours_model()
+    similar_papers_finder.train_abstract_model(papers=papers)
+    similar_papers_finder.train_nearest_neighbours_model(papers=papers)
 
     nearest_papers_score_and_idx = similar_papers_finder.get_nearest_papers(
         paper=query_paper
@@ -63,11 +64,3 @@ def print_nearest_papers(
             yield paper_description
 
     typer.echo_via_pager(nearest_papers_generator)
-
-
-def find_paper_by_id(paper_id: str, papers: List[CodePaper]) -> CodePaper:
-    for curr_paper in papers:
-        if curr_paper.id == paper_id:
-            return curr_paper
-
-    raise ValueError(f'No paper with such id: {paper_id}!')

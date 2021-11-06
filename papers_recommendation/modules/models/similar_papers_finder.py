@@ -18,11 +18,7 @@ from papers_recommendation.modules.models.titles_vectorization import (
 
 
 class SimilarPapersFinder:
-    def __init__(
-        self, papers: List[CodePaper], titles_model_path: Union[Path, str]
-    ) -> None:
-        self._papers = papers
-
+    def __init__(self, titles_model_path: Union[Path, str]) -> None:
         self._titles_vectorization_model = TitlesVectorizationModel(
             model_path=titles_model_path
         )
@@ -31,12 +27,12 @@ class SimilarPapersFinder:
         self._nearest_neighbours_model = NearestNeighbors()
         self._pca = PCA()
 
-    def train_abstract_model(self):
-        corpus = [curr_paper.abstract for curr_paper in self._papers]
+    def train_abstract_model(self, papers: List[CodePaper]) -> None:
+        corpus = [curr_paper.abstract for curr_paper in papers]
         self._abstract_vectorization_model.train(corpus=corpus)
 
-    def train_nearest_neighbours_model(self):
-        vectors = self._get_papers_vectors()
+    def train_nearest_neighbours_model(self, papers: List[CodePaper]) -> None:
+        vectors = self._get_papers_vectors(papers=papers)
 
         self._nearest_neighbours_model.fit(X=vectors)
 
@@ -74,18 +70,18 @@ class SimilarPapersFinder:
 
         return items
 
-    def _get_papers_vectors(self) -> np.ndarray:
-        titles_vectors = self._get_all_titles_vectors()
+    def _get_papers_vectors(self, papers: List[CodePaper]) -> np.ndarray:
+        titles_vectors = self._get_all_titles_vectors(papers=papers)
         abstracts_vectors = self._get_all_abstract_vectors()
 
         vectors = np.concatenate((titles_vectors, abstracts_vectors), axis=1)
 
         return vectors
 
-    def _get_all_titles_vectors(self) -> np.ndarray:
+    def _get_all_titles_vectors(self, papers: List[CodePaper]) -> np.ndarray:
         titles_vectors = [
             self._titles_vectorization_model.get_vector(text=curr_paper.title)
-            for curr_paper in self._papers
+            for curr_paper in papers
         ]
 
         return np.array(titles_vectors)

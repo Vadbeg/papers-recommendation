@@ -22,7 +22,7 @@ def load_articles_and_train_model_cli(
     papers_loader = PapersLoader(verbose=verbose)
 
     papers = papers_loader.get_papers_by_query(
-        query=query, max_number_of_articles=max_num_of_articles
+        query=query, max_number_of_papers=max_num_of_articles
     )
 
     cache_folder.mkdir(exist_ok=True)
