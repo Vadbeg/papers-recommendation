@@ -28,7 +28,7 @@ if os.getenv(PAPERS_WITH_CODE_TOKEN_ENV) is None:
 app = FastAPI()
 
 
-MODEL_PATH = '/home/vadbeg/Downloads/cc.en.300.bin'
+MODEL_PATH = '/app/models/cc.en.300.bin'
 
 papers_loader = PapersLoader(verbose=True)
 papers: Optional[List[CodePaper]] = None
