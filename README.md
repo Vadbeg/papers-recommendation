@@ -39,12 +39,8 @@ source scripts/stop_container.sh
 
 ## API
 
-You can find API description here:
+After API starts you can find API description here:
 ``
-
-## Scripts
-
-
 
 
 ## Built With
