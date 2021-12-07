@@ -44,7 +44,7 @@ source scripts/stop_container.sh
 
 ## API
 
-After API starts you can find API description here:
+After API starts you can find its description here:
 http://0.0.0.0:8000/docs
 
 
