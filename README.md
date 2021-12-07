@@ -25,8 +25,13 @@ FastAPI [web page](https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.3
 To start api use:
 
 ```shell
-source scripts/build_image.sh &&
-source scripts/start_container.sh PAPERS_WITH_CODE_API
+source build_image.sh &&
+source start_container.sh PAPERS_WITH_CODE_API
+```
+
+Then in appeared shell type:
+```shell
+uvicorn papers_recommendation.api.api:app --reload --port 8000 --host 0.0.0.0
 ```
 
 Now you can open http://0.0.0.0:8080 and use project.
@@ -40,7 +45,7 @@ source scripts/stop_container.sh
 ## API
 
 After API starts you can find API description here:
-``
+http://0.0.0.0:8000/docs
 
 
 ## Built With

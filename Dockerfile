@@ -9,4 +9,5 @@ COPY . /app
 WORKDIR /app
 RUN chmod +x start_api.sh
 
-ENTRYPOINT ./start_api.sh
+#ENTRYPOINT uvicorn papers_recommendation.api.api:app --reload --port 8000 --host 0.0.0.0
+ENTRYPOINT ["bash"]

@@ -27,15 +27,18 @@ if os.getenv(PAPERS_WITH_CODE_TOKEN_ENV) is None:
 
 app = FastAPI()
 
-
 MODEL_PATH = '/app/models/cc.en.300.bin'
 
+print('Loading papers parser...')
 papers_loader = PapersLoader(verbose=True)
 papers: Optional[List[CodePaper]] = None
+print('Finish loading papers parser.')
 
+print('Loading model...')
 similar_papers_finder: SimilarPapersFinder = SimilarPapersFinder(
     titles_model_path=MODEL_PATH
 )
+print('Finish loading model.')
 
 
 @app.get(path='/papers', response_class=JSONResponse)
