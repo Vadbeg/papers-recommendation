@@ -81,7 +81,7 @@ function PapersListing(props) {
                     Similar to "{papers.find(p => p.id === paperId).title}":
                 </Typography>
                 {similarPapers
-                    .filter(p => p.paper_dist !== 0)
+                    .filter(p => p.paper_dist !== 0 && p.id !== paperId)
                     .sort((p1, p2) => p1.paper_dist - p2.paper_dist)
                     .map(p => <PaperComponent paper={p} key={p.id}/>)
                 }
